@@ -71,6 +71,18 @@ def test_business_seconds_before_to_after_holiday(client):
     assert response.get_json() == 9*60*60
 
 
+def test_business_seconds_before_weekend_holiday_to_monday(client):
+    response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_BEFORE_WEEKEND_HOLIDAY_10AM, ISO_MONDAY_AFTER_WEEKEND_HOLIDAY_10AM))
+    assert response.status_code == 200
+    assert response.get_json() == 7*60*60
+
+
+def test_business_seconds_before_weekend_holiday_to_tuesday(client):
+    response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_BEFORE_WEEKEND_HOLIDAY_10AM, ISO_TUESDAY_AFTER_WEEKEND_HOLIDAY_10AM))
+    assert response.status_code == 200
+    assert response.get_json() == 9*60*60
+
+
 def test_business_seconds_invalid_iso_date(client):
     response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_8AM, ISO_INVALID))
     assert response.status_code == 400
