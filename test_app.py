@@ -1,7 +1,7 @@
 import pytest
 
 from enums.error_enums import INVALID_PARAMS
-from .main import app
+from .app import app
 
 BUSINESS_SECOND_URI = '/api/business-seconds?start_time={}&end_time={}'
 ISO_8AM = '2021-02-19T08:00:00'
