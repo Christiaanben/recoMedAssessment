@@ -8,9 +8,11 @@ BUSINESS_SECOND_URI = '/api/business-seconds?start_time={}&end_time={}'
 ISO_WEDNESDAY_9AM = '2021-02-17T09:00:00'
 ISO_THURSDAY_9AM = '2021-02-18T09:00:00'
 ISO_THURSDAY_5PM = '2021-02-18T17:00:00'
+ISO_FRIDAY_1AM = '2021-02-19T01:00:00'
 ISO_FRIDAY_7AM = '2021-02-19T07:00:00'
 ISO_FRIDAY_8AM = '2021-02-19T08:00:00'
 ISO_FRIDAY_9AM = '2021-02-19T09:00:00'
+ISO_FRIDAY_11PM = '2021-02-19T23:00:00'
 ISO_MONDAY_9AM = '2021-02-22T09:00:00'
 
 ISO_FRIDAY_BEFORE_WEEKEND_HOLIDAY_10AM = '2021-03-19T10:00:00'
@@ -49,6 +51,12 @@ def test_business_seconds_7_to_9(client):
     assert response.get_json() == 60*60
 
 
+def test_business_seconds_1_to_23(client):
+    response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_1AM, ISO_FRIDAY_11PM))
+    assert response.status_code == 200
+    assert response.get_json() == 9*60*60
+
+
 def test_business_seconds_yesterday_17_to_8(client):
     response = client.get(BUSINESS_SECOND_URI.format(ISO_THURSDAY_5PM, ISO_FRIDAY_8AM))
     assert response.status_code == 200
@@ -59,9 +67,6 @@ def test_business_seconds_thursday_to_friday(client):
     response = client.get(BUSINESS_SECOND_URI.format(ISO_THURSDAY_9AM, ISO_FRIDAY_9AM))
     assert response.status_code == 200
     assert response.get_json() == 9*60*60
-
-
-# TODO: add test from 1am to 11pm
 
 
 def test_business_seconds_wednesday_to_friday(client):

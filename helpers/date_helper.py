@@ -1,19 +1,23 @@
 from datetime import datetime, timedelta
 
-import flask
+import holidays
 
 
 def is_valid_iso8601(date_string) -> bool:
     try:
         parse_iso8601(date_string)
-    except ValueError as e:
-        flask.current_app.logger.error(e)
+    except ValueError:
         return False
     return True
 
 
 def parse_iso8601(date_string):
     return datetime.fromisoformat(date_string)
+
+
+def is_holiday(date: datetime) -> bool:
+    za_holidays = holidays.ZA()
+    return date.date() in za_holidays
 
 
 def next_business_time(date: datetime) -> datetime:
@@ -24,6 +28,17 @@ def next_business_time(date: datetime) -> datetime:
         return date.replace(hour=8)
     if date.time() >= datetime(2000, 1, 1, 17).time():
         return (date + timedelta(days=1)).replace(hour=8)
+    return date
+
+
+def previous_business_time(date: datetime) -> datetime:
+    """
+    Determines the last time from the given date that falls within business hours
+    """
+    if date.time() > datetime(2000, 1, 1, 17).time():
+        return date.replace(hour=17)
+    if date.time() <= datetime(2000, 1, 1, 8).time():
+        return (date - timedelta(days=1)).replace(hour=17)
     return date
 
 
