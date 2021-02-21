@@ -89,5 +89,3 @@ Returns the business seconds between a start and end time.
 ## Post ReadMe meme
 
 ![pseudocode vs python code](https://i.imgur.com/2YyST5M.jpg)
-
-
