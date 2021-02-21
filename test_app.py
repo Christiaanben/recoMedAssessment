@@ -1,7 +1,7 @@
 import pytest
 
-from .enums.error_enums import INVALID_PARAMS
-from .app import app
+from enums.error_enums import INVALID_PARAMS
+from app import app
 
 BUSINESS_SECOND_URI = '/api/business-seconds?start_time={}&end_time={}'
 
@@ -13,6 +13,7 @@ ISO_THURSDAY_5PM = '2021-02-18T17:00:00'
 ISO_FRIDAY_1AM = '2021-02-19T01:00:00'
 ISO_FRIDAY_7AM = '2021-02-19T07:00:00'
 ISO_FRIDAY_8AM = '2021-02-19T08:00:00'
+ISO_FRIDAY_8_00_01AM = '2021-02-19T08:00:01'
 ISO_FRIDAY_9AM = '2021-02-19T09:00:00'
 ISO_FRIDAY_11PM = '2021-02-19T23:00:00'
 ISO_MONDAY_9AM = '2021-02-22T09:00:00'
@@ -41,6 +42,12 @@ def client():
 def test_server_online(client):
     response = client.get('/')
     assert response.status_code == 200
+
+
+def test_business_seconds_8_to_8_00_01(client):
+    response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_8AM, ISO_FRIDAY_8_00_01AM))
+    assert response.status_code == 200
+    assert response.get_json() == 1
 
 
 def test_business_seconds_8_to_9(client):
