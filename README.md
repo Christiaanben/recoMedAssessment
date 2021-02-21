@@ -30,6 +30,12 @@ sudo chmod +x ./deploy.sh
 ./deploy.sh
 ```
 
+## Run Tests
+
+```shell
+pytest
+```
+
 ## Endpoints
 
 URL: http://localhost:5000
