@@ -2,6 +2,8 @@
 
 #### Developed by <ins>Bennie van Eeden</ins>
 
+This came from the template
+
 Provides an API end point that will calculate the total number of business seconds between two given times. A business
 second is defined as any whole second that elapses after 08:00 and before 17:00 during a weekday (Monday - Friday) that
 is not a public holiday in the Republic of South Africa. The end point must support only list GET requests and must take
