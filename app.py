@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 
-from helpers.date_helper import calculate_business_seconds, parse_iso8601, is_valid_iso8601
-from enums.error_enums import INVALID_PARAMS
+from .helpers.date_helper import calculate_business_seconds, parse_iso8601, is_valid_iso8601
+from .enums.error_enums import INVALID_PARAMS
 
 app = Flask(__name__)
 
