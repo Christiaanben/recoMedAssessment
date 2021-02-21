@@ -5,6 +5,8 @@ from .app import app
 
 BUSINESS_SECOND_URI = '/api/business-seconds?start_time={}&end_time={}'
 
+ISO_NEW_YEARS_1AM = '2021-01-01T01:00:00'
+
 ISO_WEDNESDAY_9AM = '2021-02-17T09:00:00'
 ISO_THURSDAY_9AM = '2021-02-18T09:00:00'
 ISO_THURSDAY_5PM = '2021-02-18T17:00:00'
@@ -23,6 +25,8 @@ ISO_DAY_BEFORE_HOLIDAY_1PM = '2021-06-15T13:00:00'
 ISO_HOLIDAY_9AM = '2021-06-16T09:00:00'
 ISO_HOLIDAY_4PM = '2021-06-16T16:00:00'
 ISO_DAY_AFTER_HOLIDAY_1PM = '2021-06-17T13:00:00'
+
+ISO_NEW_YEARS_EVE_11PM = '2021-12-31T23:00:00'
 
 ISO_INVALID = '2021-02-19T09:00:60'
 
@@ -96,13 +100,19 @@ def test_business_seconds_before_to_after_holiday(client):
 def test_business_seconds_before_weekend_holiday_to_monday(client):
     response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_BEFORE_WEEKEND_HOLIDAY_10AM, ISO_MONDAY_AFTER_WEEKEND_HOLIDAY_10AM))
     assert response.status_code == 200
-    assert response.get_json() == 7*60*60
+    assert response.get_json() == 9*60*60
 
 
 def test_business_seconds_before_weekend_holiday_to_tuesday(client):
     response = client.get(BUSINESS_SECOND_URI.format(ISO_FRIDAY_BEFORE_WEEKEND_HOLIDAY_10AM, ISO_TUESDAY_AFTER_WEEKEND_HOLIDAY_10AM))
     assert response.status_code == 200
     assert response.get_json() == 9*60*60
+
+
+def test_business_seconds_start_to_end_of_year(client):
+    response = client.get(BUSINESS_SECOND_URI.format(ISO_NEW_YEARS_1AM, ISO_NEW_YEARS_EVE_11PM))
+    assert response.status_code == 200
+    assert response.get_json() == 251*9*60*60
 
 
 def test_business_seconds_invalid_iso_date(client):

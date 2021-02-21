@@ -20,14 +20,20 @@ def is_holiday(date: datetime) -> bool:
     return date.date() in za_holidays
 
 
+def is_weekend(date: datetime) -> bool:
+    return date.weekday() in [5, 6]
+
+
 def next_business_time(date: datetime) -> datetime:
     """
     Determines the first time from the given date that falls within business hours
     """
-    if date.time() < datetime(2000, 1, 1, 8).time():
+    if is_weekend(date) or is_holiday(date) or date.time() >= datetime(2000, 1, 1, 17).time():
+        while is_weekend(date) or is_holiday(date) or date.time() >= datetime(2000, 1, 1, 17).time():
+            date = (date + timedelta(days=1)).replace(hour=8)
+        return date
+    elif date.time() < datetime(2000, 1, 1, 8).time():
         return date.replace(hour=8)
-    if date.time() >= datetime(2000, 1, 1, 17).time():
-        return (date + timedelta(days=1)).replace(hour=8)
     return date
 
 
@@ -55,6 +61,6 @@ def calculate_business_days_between(start_date: datetime, end_date: datetime) ->
     end_date -= timedelta(days=1)
     while start_date.date() < end_date.date():
         start_date += timedelta(days=1)
-        if start_date.weekday() < 5:
+        if not (is_weekend(start_date) or is_holiday(start_date)):
             days += 1
     return days
