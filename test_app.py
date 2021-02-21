@@ -32,7 +32,6 @@ ISO_NEW_YEARS_EVE_11PM = '2021-12-31T23:00:00'
 ISO_INVALID = '2021-02-19T09:00:60'
 
 
-
 @pytest.fixture
 def client():
     with app.test_client() as client:
