@@ -35,7 +35,7 @@ jobs:
       run: |
         pytest
     - name: Update ReadMe with test results
-      uses: theboi/github-update-readme@master
+      uses: theboi/github-update-readme@main
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
