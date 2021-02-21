@@ -3,6 +3,20 @@ from datetime import datetime, timedelta
 import holidays
 
 
+def calculate_business_seconds(start_time: datetime, end_time: datetime) -> int:
+    business_start_time = next_business_time(start_time)
+    business_end_time = previous_business_time(end_time)
+    if business_end_time <= business_start_time:
+        return 0
+    if business_start_time.date() == business_end_time.date():
+        time_diff = business_end_time - business_start_time
+        return int(time_diff.total_seconds())
+    business_seconds_on_start_date = calculate_business_time_for_today_after(business_start_time)
+    business_seconds_on_end_date = calculate_business_time_for_today_before(business_end_time)
+    business_days_between_dates = calculate_business_days_between(business_start_time, business_end_time)
+    return business_seconds_on_start_date + business_days_between_dates * 9 * 60 * 60 + business_seconds_on_end_date
+
+
 def is_valid_iso8601(date_string) -> bool:
     try:
         parse_iso8601(date_string)
