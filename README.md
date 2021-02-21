@@ -80,11 +80,6 @@ Returns the business seconds between a start and end time.
 
     * **Code:** 400 BAD REQUEST <br/>
       **Content:** `{ "error" : "Invalid params provided" }`
-      
-  OR
-
-    * **Code:** 416 RANGE NOT SATISFIABLE <br/>
-      **Content:** `{ "error" : "Provided params are out of range for South African holidays" }`
 
 ## Post ReadMe meme
 
