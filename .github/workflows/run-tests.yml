@@ -34,20 +34,3 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: Generate new ReadMe
-      uses: muesli/readme-scribe@master
-      env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN  }}
-      with:
-        template: "templates/README.md.tpl"
-        writeTo: "README.md"
-    - name: Save new ReadMe
-      uses: stefanzweifel/git-auto-commit-action@v4
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
-      with:
-        commit_message: Update generated README
-        branch: main
-        commit_user_name: readme-scribe 🤖
-        commit_user_email: actions@github.com
-        commit_author: readme-scribe 🤖 <actions@github.com>
